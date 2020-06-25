@@ -7,6 +7,8 @@ import com.kropotov.asrd.dto.company.EmployeeDto;
 import com.kropotov.asrd.facades.CompanyFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +25,7 @@ public class CompanyController {
     private final CompanyFacade companyFacade;
 
     @GetMapping("")
-    public String showCompanies(Model model, Pageable pageable) {
+    public String showCompanies(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         model.addAttribute("companies",companyFacade.fillPage(model, pageable));
         return "companies/list-companies";
     }
