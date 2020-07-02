@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -88,7 +89,8 @@ public class ControlSystem implements PageableEntity, IFiles {
     @NotNull(message = "User cannot be null")
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Audited(modifiedColumnName = "user_id_mod", withModifiedFlag = true)
+
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED, modifiedColumnName = "user_id_mod", withModifiedFlag = true)
     private User user;
 
 

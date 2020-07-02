@@ -1,13 +1,14 @@
 package com.kropotov.asrd.converters.docs;
 
-import com.kropotov.asrd.converters.company.DtoToCompany;
 import com.kropotov.asrd.converters.SimpleToUser;
+import com.kropotov.asrd.converters.company.DtoToCompany;
 import com.kropotov.asrd.converters.simples.items.SimpleToControlSystem;
 import com.kropotov.asrd.converters.simples.items.SimpleToDevice;
 import com.kropotov.asrd.dto.docs.InvoiceDto;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.services.StorageService;
 import com.kropotov.asrd.services.springdatajpa.docs.InvoiceService;
+import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -28,6 +29,7 @@ public class DtoToInvoice implements Converter<InvoiceDto, Invoice> {
     private final SimpleToUser simpleToUser;
     private final StorageService storageService;
     private final InvoiceService invoiceService;
+    private final CompanyService companyService;
 
     @Synchronized
     @Nullable
@@ -43,8 +45,12 @@ public class DtoToInvoice implements Converter<InvoiceDto, Invoice> {
                 .id(source.getId())
                 .number(source.getNumber())
                 .date((source.getDate() == null || source.getDate().equals("")) ? null : LocalDate.parse(source.getDate(), dateFormatter))
-                .from(companyConverter.convert(source.getFrom()))
-                .destination(companyConverter.convert(source.getDestination()))
+                .from(companyService.getById(source.getFrom().getId()).orElseThrow(
+                        () -> new RuntimeException("Такой компании нет базе")
+                ))
+                .destination(companyService.getById(source.getDestination().getId()).orElseThrow(
+                        () -> new RuntimeException("Такой компании нет базе")
+                ))
                 .description(source.getDescription())
                 .user(simpleToUser.convert(source.getUser()))
                 .build();

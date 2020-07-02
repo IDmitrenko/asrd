@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
         Set<String> emailList = new HashSet<>();
         emailList.add(email);
         String emailSubject = "Регистрация в АСУП";
-        EmailMessage emailMessage = EmailMessage.builder().mailSubject(emailSubject).build();
+        EmailMessage emailMessage = EmailMessage.builder().contentType("text/plain").mailSubject(emailSubject).build();
         emailMessage.setMessageContent("Ваш пароль для подтверждения почты: " + confirmingPassword);
         emailMessage.setMessageFrom("m");
         emailMessage.setRecipients(emailList);

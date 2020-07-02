@@ -60,7 +60,7 @@ public class FileSystemStorageService implements StorageService {
                 try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(rootLocation.resolve(path))) {
                     for (Path child : dirStream) {
                         if (child.getFileName().toString().equals(filename)) {
-                            throw new StorageException("Файл с таким именем уже существует " + rootLocation.toAbsolutePath());
+                            throw new StorageException("Файл с таким именем уже существует " + rootLocation.resolve(path));
                         }
                     }
                 }

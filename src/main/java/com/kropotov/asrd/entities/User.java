@@ -5,7 +5,6 @@ import com.kropotov.asrd.entities.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
@@ -16,7 +15,6 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @Table(name = "users")
-@Audited
 public class User extends BaseEntity {
 
 	@Column(name = "username")

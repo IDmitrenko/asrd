@@ -67,7 +67,7 @@ public class ActInputControlController extends CustomErrorController {
         actFacade.deleteFile(actId);
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/update")
     public String saveOrUpdate(@ModelAttribute ActInputControlDto actDto, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
