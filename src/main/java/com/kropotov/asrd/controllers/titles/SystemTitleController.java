@@ -1,10 +1,8 @@
 package com.kropotov.asrd.controllers.titles;
 
 import com.kropotov.asrd.entities.titles.SystemTitle;
-import com.kropotov.asrd.services.UserService;
 import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +20,7 @@ public class SystemTitleController {
 
     @GetMapping
     public String displayDevices(Model model) {
-        model.addAttribute("systemTitles", systemTitleService.getAll());
+        model.addAttribute("systemTitles", systemTitleService.getAll().get());
         return "titles/systems/list";
     }
 

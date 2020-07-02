@@ -22,7 +22,7 @@ public class DeviceComponentTitleController {
 
     @GetMapping
     public String displayDeviceComponentTitles(Model model) {
-        model.addAttribute("deviceComponentTitles", deviceComponentTitleService.getAll());
+        model.addAttribute("deviceComponentTitles", deviceComponentTitleService.getAll().get());
         return "titles/devicecomponents/list";
     }
 

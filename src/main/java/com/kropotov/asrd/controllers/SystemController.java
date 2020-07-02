@@ -100,6 +100,7 @@ public class SystemController {
             systemDto = systemService.getDtoById(id);
         }
         model.addAttribute("system", systemDto);
+        model.addAttribute("history", systemService.getHistoryById(id));
 
         return "systems/edit-system";
     }

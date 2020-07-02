@@ -30,7 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Audited(withModifiedFlag = true)
+@Audited(withModifiedFlag = true) // TODO не сохраняет в истории version, version_mod,
 public class ControlSystem implements PageableEntity, IFiles {
 
     @Id
@@ -57,11 +57,11 @@ public class ControlSystem implements PageableEntity, IFiles {
     @Column(name = "vp_number")
     private int vpNumber;
 
-    @Audited(modifiedColumnName = "accept_otk_date")
+    @Audited(modifiedColumnName = "accept_otk_date_mod", withModifiedFlag = true)
     @Column(name = "accept_otk_date")
     private LocalDate otkDate;
 
-    @Audited(modifiedColumnName = "accept_vp_date")
+    @Audited(modifiedColumnName = "accept_vp_date_mod", withModifiedFlag = true)
     @Column(name = "accept_vp_date")
     private LocalDate vpDate;
 
@@ -69,6 +69,7 @@ public class ControlSystem implements PageableEntity, IFiles {
     private Status entityStatus;
 
     @Version
+    @Audited(modifiedColumnName = "version_mod", withModifiedFlag = true)
     private int version;
 
     @CreationTimestamp
@@ -87,7 +88,7 @@ public class ControlSystem implements PageableEntity, IFiles {
     @NotNull(message = "User cannot be null")
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Audited(modifiedColumnName = "user_id")
+    @Audited(modifiedColumnName = "user_id_mod", withModifiedFlag = true)
     private User user;
 
 

@@ -20,7 +20,7 @@ public class SystemComponentTitleController {
 
     @GetMapping
     public String displaySystemComponentTitles(Model model) {
-        model.addAttribute("systemComponentTitles", systemComponentTitleService.getAll());
+        model.addAttribute("systemComponentTitles", systemComponentTitleService.getAll().get());
         return "titles/systemcomponents/list";
     }
 

@@ -14,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.sql.DataSource;
-
 @Configuration // файл настроек
 @EnableWebSecurity // включение безопасности
 @EnableGlobalMethodSecurity(securedEnabled = true) // защита на отдельные методы

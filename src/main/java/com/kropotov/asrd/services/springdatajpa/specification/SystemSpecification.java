@@ -1,11 +1,11 @@
 package com.kropotov.asrd.services.springdatajpa.specification;
 
 import com.kropotov.asrd.entities.User;
-import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.User_;
+import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.items.ControlSystem_;
-import com.kropotov.asrd.entities.titles.SystemTitle_;
 import com.kropotov.asrd.entities.titles.SystemTitle;
+import com.kropotov.asrd.entities.titles.SystemTitle_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Join;

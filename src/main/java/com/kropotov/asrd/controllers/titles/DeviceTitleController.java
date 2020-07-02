@@ -21,7 +21,7 @@ public class DeviceTitleController {
 
     @GetMapping
     public String displayDeviceTitles(Model model) {
-        model.addAttribute("deviceTitles", deviceTitleService.getAll());
+        model.addAttribute("deviceTitles", deviceTitleService.getAll().get());
         return "titles/devices/list";
     }
 

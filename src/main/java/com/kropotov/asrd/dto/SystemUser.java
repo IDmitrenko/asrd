@@ -5,7 +5,6 @@ import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.entities.StatusUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.validation.FieldMatch;
-import com.kropotov.asrd.validation.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

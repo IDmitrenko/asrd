@@ -23,7 +23,7 @@ public class TopicController {
 
     @GetMapping
     public String displayDevices(Model model) {
-        model.addAttribute("topics", topicService.getAll());
+        model.addAttribute("topics", topicService.getAll().get());
         return "titles/topics/list";
     }
 

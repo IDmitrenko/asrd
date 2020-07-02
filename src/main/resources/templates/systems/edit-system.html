@@ -7,7 +7,7 @@
 <body>
 
 <nav th:replace="layouts :: navbar(Systems)"></nav>
-<div class="container">
+<div class="container-fluid">
 
     <header class="card-header">
         <h4 class="card-title mt-2">
@@ -18,148 +18,178 @@
         </h4>
     </header>
 
-    <div class="form-group">
-        <div class="col-xs-15">
-            <div th:if="${systemCreationError != null}">
-                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                    <span th:text="${systemCreationError}"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <form class="form-horizontal" th:action="@{/systems/edit}" th:object="${system}" method="post">
-        <input type="hidden" th:field="*{id}" class="form-control" id="systemId">
-        <input type="hidden" th:field="*{systemTitle.id}">
-
-
-        <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
-
-        <div class="col-auto">
-            <label for="number-id">Номер</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        №
+    <div class="row flex-xl-nowrap">
+        <div class="col-12 col-lg-4 bd-sidebar">
+            <div class="form-group">
+                <div class="col-xs-15">
+                    <div th:if="${systemCreationError != null}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            <span th:text="${systemCreationError}"></span>
+                        </div>
                     </div>
                 </div>
-                <input th:field="*{number}" type="text" class="form-control" id="number-id"
-                       placeholder="Введите номер системы" required>
             </div>
-        </div>
 
-        <div class="col-auto">
-            <label for="strVintage-id">Дата изготовления</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <input type="text" class="form-date"
-                       id="strVintage-id" th:field="*{vintage}" placeholder="дд.мм.гггг">
-            </div>
-        </div>
 
-        <div class="col-auto">
-            <label for="strOtkDate-id">Дата приемки отк</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <input type="text" class="form-date" id="strOtkDate-id" th:field="*{otkDate}"
-                       placeholder="дд.мм.гггг">
-            </div>
-        </div>
-        <div class="col-auto">
-            <label for="strVpDate-id">Дата приемки ВП</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div>
-                </div>
+            <form class="form-horizontal" th:action="@{/systems/edit}" th:object="${system}" method="post">
+                <input type="hidden" th:field="*{id}" class="form-control" id="systemId">
+                <input type="hidden" th:field="*{systemTitle.id}">
 
-                <input type="text" class="form-date" id="strVpDate-id" th:field="*{vpDate}"
-                       placeholder="дд.мм.гггг">
-            </div>
-        </div>
-        <div class="col-auto">
-            <label for="vpNumber-id">Военное представительство</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <input type="text" class="form-control" name="strVpDate" id="vpNumber-id" th:field="*{vpNumber}">
-            </div>
-        </div>
-        <div class="col-auto">
-            <label for="purpose-id">Назначение</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-archive" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <input type="text" class="form-control" name="strVpDate" id="purpose-id" th:field="*{purpose}">
-            </div>
-        </div>
-        <div class="col-auto">
-            <label for="purposePassport-id">Назначение по паспорту</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-archive" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <input type="text" class="form-control" name="strVpDate" id="purposePassport-id" th:field="*{purposePassport}">
-            </div>
-        </div>
 
-        <div class="col-auto">
-            <label for="result-id">Местоположение: </span></label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        №
-                    </div>
-                </div>
-                <!--                /*@thymesVar id="locationValue" type="com.kropotov.asrd.entities.enums.Location"*/-->
-                <select class="custom-select" id="result-id" th:field="*{location}">
-                    <option th:each="locationValue : ${T(com.kropotov.asrd.entities.enums.Location).values()}"
-                            th:value="${locationValue.name()}"
-                            th:text="${locationValue.title}"></option>
-                </select>
-            </div>
-        </div>
+                <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
 
-        <div th:if="${not #lists.isEmpty(system.devices)}" class="col-auto">
-            <h5>Составные части</h5>
-            <ul>
-                <li th:each="t, i : *{devices}">
-                    <input type="hidden" th:field="*{devices[__${i.index}__].deviceTitle.id}">
-                    <input type="hidden" th:field="*{devices[__${i.index}__].id}">
-                    <!--                    <input type="hidden" th:field="*{components[__${i.index}__].title.title}">-->
-                    <label th:text="*{devices[__${i.index}__].deviceTitle.title}"></label>
+                <div class="col-auto">
+                    <label for="number-id">Номер</label>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
                                 №
                             </div>
                         </div>
-                        <input type="text" th:field="*{devices[__${i.index}__].number}">
+                        <input th:field="*{number}" type="text" class="form-control" id="number-id"
+                               placeholder="Введите номер системы" required>
                     </div>
-                </li>
-            </ul>
+                </div>
+
+                <div class="col-auto">
+                    <label for="strVintage-id">Дата изготовления</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-date"
+                               id="strVintage-id" th:field="*{vintage}" placeholder="дд.мм.гггг">
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label for="strOtkDate-id">Дата приемки отк</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-date" id="strOtkDate-id" th:field="*{otkDate}"
+                               placeholder="дд.мм.гггг">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="strVpDate-id">Дата приемки ВП</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </div>
+                        </div>
+
+                        <input type="text" class="form-date" id="strVpDate-id" th:field="*{vpDate}"
+                               placeholder="дд.мм.гггг">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="vpNumber-id">Военное представительство</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" name="strVpDate" id="vpNumber-id"
+                               th:field="*{vpNumber}">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="purpose-id">Назначение</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-archive" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" name="strVpDate" id="purpose-id" th:field="*{purpose}">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="purposePassport-id">Назначение по паспорту</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-archive" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" name="strVpDate" id="purposePassport-id"
+                               th:field="*{purposePassport}">
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label for="result-id">Местоположение: </span></label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                №
+                            </div>
+                        </div>
+                        <!--                /*@thymesVar id="locationValue" type="com.kropotov.asrd.entities.enums.Location"*/-->
+                        <select class="custom-select" id="result-id" th:field="*{location}">
+                            <option th:each="locationValue : ${T(com.kropotov.asrd.entities.enums.Location).values()}"
+                                    th:value="${locationValue.name()}"
+                                    th:text="${locationValue.title}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div th:if="${not #lists.isEmpty(system.devices)}" class="col-auto">
+                    <h5>Составные части</h5>
+                    <ul>
+                        <li th:each="t, i : *{devices}">
+                            <input type="hidden" th:field="*{devices[__${i.index}__].deviceTitle.id}">
+                            <input type="hidden" th:field="*{devices[__${i.index}__].id}">
+                            <!--                    <input type="hidden" th:field="*{components[__${i.index}__].title.title}">-->
+                            <label th:text="*{devices[__${i.index}__].deviceTitle.title}"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        №
+                                    </div>
+                                </div>
+                                <input type="text" th:field="*{devices[__${i.index}__].number}">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
         </div>
-        <hr>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
+        <div class="col-12 col-lg-8">
+            <h3>История изменений</h3>
+            <table class="table table-hover mr-3">
+                <thead class="thead-dark">
+                <tr>
+                    <th>№ п/п</th>
+                    <th>Дата</th>
+                    <th>Название</th>
+                    <th>Значение</th>
+                    <th>Пользователь</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="field, i : ${history}">
+                    <td th:text="${i.count}"></td>
+                    <td th:text="${field.changeDate}"></td>
+                    <td th:text="${field.title}"></td>
+                    <td th:text="${field.value}"></td>
+                    <td th:text="${field.user.lastName} + ' ' + ${field.user.firstName}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <div th:replace="layouts :: footer"></div>

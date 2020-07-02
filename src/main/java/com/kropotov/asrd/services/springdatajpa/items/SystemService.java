@@ -5,6 +5,7 @@ import com.kropotov.asrd.dto.items.ControlSystemDto;
 import com.kropotov.asrd.entities.History;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.titles.SystemTitle;
+import com.kropotov.asrd.repositories.ControlSystemHibernateEnversHistoryRepository;
 import com.kropotov.asrd.repositories.SystemRepository;
 import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class SystemService implements CrudService<ControlSystem, Long> {
 
     private final SystemRepository systemRepository;
     private final ControlSystemToDto controlSystemToDto;
+    private final ControlSystemHibernateEnversHistoryRepository historyRepository;
 //    private final HistoryRepository historyRepository;
 
     public Page<ControlSystem> getAll(Pageable pageable) {
@@ -130,6 +132,6 @@ public class SystemService implements CrudService<ControlSystem, Long> {
     }
 
     public List<History> getHistoryById(Long id) {
-        return systemRepository.getHistoryById(id);
+        return historyRepository.getHistoryById(id);
     }
 }

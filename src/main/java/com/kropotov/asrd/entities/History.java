@@ -1,8 +1,9 @@
 package com.kropotov.asrd.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.kropotov.asrd.dto.SimpleUser;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 /**
  * Created by Artem Kropotov on 03.06.2020
@@ -10,12 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class History {
     private String title;
     private Object value;
-
-    public History(String title, Object value) {
-        this.title = title;
-        this.value = value;
-    }
+    private LocalDateTime changeDate;
+    private SimpleUser user;
 }

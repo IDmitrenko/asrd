@@ -33,7 +33,7 @@ public class SystemServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        systemService = new SystemService(systemRepository, controlSystemToDto);
+        systemService = new SystemService(systemRepository, controlSystemToDto, null);
     }
 
     @Test

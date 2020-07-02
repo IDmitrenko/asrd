@@ -1,6 +1,6 @@
 package com.kropotov.asrd.services.pdf;
 
-import org.springframework.stereotype.Service;
+import javax.validation.constraints.NotNull;
 
 import javax.validation.constraints.NotNull;
 
