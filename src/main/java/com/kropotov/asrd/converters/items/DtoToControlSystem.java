@@ -40,7 +40,26 @@ public class DtoToControlSystem implements Converter<ControlSystemDto, ControlSy
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        final ControlSystem controlSystem = ControlSystem.builder()
+        final ControlSystem controlSystem;
+        if (source.getId() != null) {
+            controlSystem = systemService.getById(source.getId()).get();
+        } else {
+            controlSystem = new ControlSystem();
+            controlSystem.setTitle(systemTitleService.getById(source.getSystemTitle().getId()).orElseThrow(
+                    () -> new RuntimeException("Ошибка при выборе названия системы")
+            ));
+        }
+        controlSystem.setNumber(source.getNumber());
+        controlSystem.setLocation(source.getLocation());
+        controlSystem.setPurpose(source.getPurpose());
+        controlSystem.setPurposePassport(source.getPurposePassport());
+        controlSystem.setVintage((source.getVintage() == null || source.getVintage().equals("")) ? null : LocalDate.parse(source.getVintage(), dateFormatter));
+        controlSystem.setOtkDate((source.getOtkDate() == null || source.getOtkDate().equals("")) ? null : LocalDate.parse(source.getOtkDate(), dateFormatter));
+        controlSystem.setVpDate((source.getVpDate() == null || source.getVpDate().equals("")) ? null : LocalDate.parse(source.getVpDate(), dateFormatter));
+        controlSystem.setVpNumber(source.getVpNumber());
+        controlSystem.setUser(simpleToUser.convert(source.getUser()));
+
+        /*ControlSystem.builder()
                 .id(source.getId())
                 .title(systemTitleService.getById(source.getSystemTitle().getId()).orElseThrow(
                         () -> new RuntimeException("Ошибка при выборе названия системы")
@@ -54,7 +73,7 @@ public class DtoToControlSystem implements Converter<ControlSystemDto, ControlSy
                 .vpDate((source.getVpDate() == null || source.getVpDate().equals("")) ? null : LocalDate.parse(source.getVpDate(), dateFormatter))
                 .vpNumber(source.getVpNumber())
                 .user(simpleToUser.convert(source.getUser()))
-            .build();
+            .build();*/
 
         if (source.getDevices() != null && source.getDevices().size() > 0) {
             for (SimpleDevice d : source.getDevices()) {
@@ -65,7 +84,7 @@ public class DtoToControlSystem implements Converter<ControlSystemDto, ControlSy
                     controlSystem.addDevice(tmpDevice);
                 } else if (d.getId() != null) {
                     Optional<Device> tmpDevice = deviceService.getById(d.getId());
-                    if(tmpDevice.isPresent()) {
+                    if (tmpDevice.isPresent()) {
                         tmpDevice.get().setSystem(null);
                         deviceService.save(tmpDevice.get());
                     }

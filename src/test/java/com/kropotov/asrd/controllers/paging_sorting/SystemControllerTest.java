@@ -6,7 +6,6 @@ import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.items.ControlSystemToDto;
 import com.kropotov.asrd.converters.items.DtoToControlSystem;
 import com.kropotov.asrd.entities.User;
-import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.services.UserService;
@@ -27,8 +26,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,11 +69,17 @@ public class SystemControllerTest {
 
 	@Test
 	void evaluatesPageableParameter() throws Exception {
-		ControlSystem expectedSystem = new ControlSystem(1L, null, LocalDateTime.now(), LocalDateTime.now(),
-				"1", Location.SGP, "test purpose 1", "test purpose passport 1",
-				LocalDate.now(), 1, LocalDate.now(), LocalDate.now(), new SystemTitle(),
-				new User(), null,
-				null, null);
+//		ControlSystem expectedSystem = new ControlSystem(1L, null, LocalDateTime.now(), LocalDateTime.now(),
+//				"1", Location.SGP, "test purpose 1", "test purpose passport 1",
+//				LocalDate.now(), 1, LocalDate.now(), LocalDate.now(), new SystemTitle(),
+//				new User(), null,
+//				null, null);
+
+		ControlSystem expectedSystem = new ControlSystem();
+		expectedSystem.setNumber("90453");
+		expectedSystem.setUser(new User());
+		expectedSystem.setTitle(new SystemTitle());
+
 		List<ControlSystem> expectedSystems = Collections.singletonList(expectedSystem);
 
 		Pageable testPageable = PageRequest.of(0, 10, Sort.by("id").descending());

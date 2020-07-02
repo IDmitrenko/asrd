@@ -4,21 +4,23 @@ import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.repositories.titles.SystemTitleRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@DataJpaTest
+//@RunWith(SpringRunner.class)
 @SqlGroup({@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"classpath:schema.sql", "classpath:data.sql"})
-        /*@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:drop.sql")*/}) // Оставляю это для примера если потребуется особое поведение между интеграциооными тестами
+        /*@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:drop.sql")*/})
+// Оставляю это для примера если потребуется особое поведение между интеграциооными тестами
 public class SystemRepositoryTest {
 
     @Autowired
@@ -33,7 +35,7 @@ public class SystemRepositoryTest {
     User user;
     SystemTitle systemTitle;
 
-    @Before
+    @BeforeEach
     public void init() {
         user = userRepository.findById(1L).get();
         systemTitle = systemTitleRepository.findById(1L).get();
@@ -48,6 +50,12 @@ public class SystemRepositoryTest {
         newControlSystem.setTitle(systemTitle);
         systemRepository.save(newControlSystem);
 
+        ControlSystem returnedControlSystem = systemRepository.findByNumberAndTitle("90453", systemTitle);
+        returnedControlSystem.setVintage(LocalDate.now());
+        systemRepository.save(returnedControlSystem);
+        returnedControlSystem.setOtkDate(LocalDate.now());
+        systemRepository.save(returnedControlSystem);
         assertEquals(newSize, systemRepository.findAll().size());
+        assertNotEquals(newControlSystem.getUpdatedAt(), newControlSystem.getCreatedAt());
     }
 }

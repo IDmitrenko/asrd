@@ -2,10 +2,11 @@ package com.kropotov.asrd.entities;
 
 import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.common.BaseEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @Table(name = "users")
+@Audited
 public class User extends BaseEntity {
 
 	@Column(name = "username")
@@ -41,10 +43,12 @@ public class User extends BaseEntity {
 	@Column(name = "mobile_phone")
 	private String mobilePhone;
 
+	@NotAudited
 	@ManyToOne()
 	@JoinColumn(name = "status_user_id")
 	private StatusUser statusUser;
 
+	@NotAudited
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles",
 	joinColumns = @JoinColumn(name = "user_id"),

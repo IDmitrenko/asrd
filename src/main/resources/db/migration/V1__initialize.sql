@@ -1,5 +1,15 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS revinfo;
+
+CREATE TABLE revinfo (
+     rev BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+     revtstmp BIGINT NOT NULL,
+     PRIMARY KEY (REV)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
+
 DROP TABLE IF EXISTS status_user;
 
 CREATE TABLE status_user
@@ -210,8 +220,9 @@ CREATE TABLE systems
     accept_vp_date   DATE                 DEFAULT NULL,
     location         TINYINT              DEFAULT 0,
     entity_status    TINYINT              DEFAULT 1,
-    created_at       DATETIME    DEFAULT CURRENT_TIMESTAMP,
-    updated_at       DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    version                 INT NOT NULL DEFAULT 0,
+    created_at       DATETIME,
+    updated_at       DATETIME,
     user_id          SMALLINT UNSIGNED     ,
     PRIMARY KEY (id),
     CONSTRAINT FK_TITLE_SYSTEM_ID_02 FOREIGN KEY (title_system_id)
@@ -219,6 +230,50 @@ CREATE TABLE systems
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT FK_USER_ID_02 FOREIGN KEY (user_id)
         REFERENCES users (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
+DROP TABLE IF EXISTS systems_aud;
+
+CREATE TABLE systems_aud
+(
+    id               		INT  NOT NULL,
+    rev 					BIGINT UNSIGNED NOT NULL,
+    revtype 				TINYINT,
+    version                 INT,
+    version_mod             BOOLEAN,
+    number           		VARCHAR(255) NOT NULL,
+    number_mod           	BOOLEAN,
+    purpose          		VARCHAR(255)          DEFAULT NULL,
+    purpose_mod      		BOOLEAN,
+    purpose_passport 		VARCHAR(255)          DEFAULT NULL,
+    purpose_passport_mod	BOOLEAN,
+    vintage          		DATE                 DEFAULT NULL,
+    vintage_mod      		BOOLEAN,
+    vp_number        		INT              DEFAULT NULL,
+    vp_number_mod      		BOOLEAN,
+    accept_otk_date  		DATE                 DEFAULT NULL,
+    accept_otk_date_mod		BOOLEAN,
+    accept_vp_date   		DATE                 DEFAULT NULL,
+    accept_vp_date_mod  	BOOLEAN,
+    location         		TINYINT              DEFAULT 0,
+    location_mod      		BOOLEAN,
+    entity_status    		TINYINT              DEFAULT 1,
+    entity_status_mod   	BOOLEAN,
+    created_at       		DATETIME,
+    created_at_mod      	BOOLEAN,
+    updated_at       		DATETIME,
+    updated_at_mod     		BOOLEAN,
+    user_id          		SMALLINT UNSIGNED,
+    user_id_mod      		BOOLEAN,
+    PRIMARY KEY (id, rev),
+    CONSTRAINT FK_SYSTEMS_AUD_USERS FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT FK_SYSTEMS_AUD_REVINFO FOREIGN KEY (rev)
+        REFERENCES revinfo (rev)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
